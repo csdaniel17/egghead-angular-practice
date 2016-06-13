@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html ng-app="eggly">
-  <head>
-    <meta charset="utf-8">
-    <title>angular practice</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body ng-controller="MainController">
+<head>
+  <meta charset="utf-8">
+  <title>angular practice</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="MainController">
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <a href="#" ng-click="setCurrentCategory(null)"><img src="http://www.vfinspections.com/eggheadGettingStarted/assets/img/eggly-logo.png" alt="eggly" /></a>
-          <ul class="nav nav-sidebar">
-            <li ng-repeat="category in categories" ng-class="{'active':isCurrentCategory(category)}">
-              <a href="#" ng-click="setCurrentCategory(category)">{{category.name}}</a>
-            </li>
-          </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <a href="#" ng-click="setCurrentCategory(null)"><img src="http://www.vfinspections.com/eggheadGettingStarted/assets/img/eggly-logo.png" alt="eggly" /></a>
+        <ul class="nav nav-sidebar">
+          <li ng-repeat="category in categories" ng-class="{'active':isCurrentCategory(category)}">
+            <a href="#" ng-click="setCurrentCategory(category)">{{category.name}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
+          <button type="button" class="close">&times;</button>
+          <button type="button" ng-click="startEditing()" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
+          <a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <div ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
-            <button type="button" class="close">&times;</button>
-            <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
-            <a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a>
+        <hr>
+
+        <div ng-if="shouldShowCreating()">
+          <button type="button" ng-click="startCreating()" class="btn btn-link"><span class="glyphicon glyphicon-plus"></span>Create Bookmark</button>
+          <div ng-if="isCreating">
+            Create a bookmark!
+            <button type="button" class="btn btn-default btn-lg pull-right" ng-click="cancelCreating()">Cancel</button>
           </div>
-          <hr>
         </div>
+
+        <hr>
+
+        <div ng-if="shouldShowEditing()">
+          Edit a bookmark
+          <button type="button" class="btn btn-default btn-lg pull-right" ng-click="cancelEditing()">Cancel</button>
+        </div>
+
+
       </div>
     </div>
+  </div>
 
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="app.js"></script>
-  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <script src="app.js"></script>
+</body>
 </html>
